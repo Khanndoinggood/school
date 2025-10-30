@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Sunset at the Sea</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, #1a2980, #26d0ce);
+        }
+
+        .scene {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .sky {
+            position: absolute;
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(to bottom, #ff7e5f, #feb47b, #6a11cb);
+            z-index: 1;
+        }
+
+        .sun {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ffd700, #ff8c00);
+            border-radius: 50%;
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 50px 20px rgba(255, 140, 0, 0.7);
+            z-index: 2;
+            animation: sunset 20s infinite alternate ease-in-out;
+        }
+
+        .sun-reflection {
+            position: absolute;
+            width: 150px;
+            height: 50px;
+            background: radial-gradient(ellipse, rgba(255, 215, 0, 0.8), rgba(255, 140, 0, 0.4), transparent);
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            filter: blur(10px);
+            z-index: 3;
+        }
+
+        .sea {
+            position: absolute;
+            width: 100%;
+            height: 30%;
+            bottom: 0;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298);
+            z-index: 4;
+        }
+
+        .waves {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            bottom: 30%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%231e3c72"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%231e3c72"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%231e3c72"/></svg>');
+            background-size: 1200px 100%;
+            animation: waves 15s linear infinite;
+            z-index: 5;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            filter: blur(5px);
+            z-index: 2;
+        }
+
+        .cloud-1 {
+            width: 120px;
+            height: 60px;
+            top: 20%;
+            left: 10%;
+            animation: cloudMove 30s linear infinite;
+        }
+
+        .cloud-2 {
+            width: 180px;
+            height: 80px;
+            top: 15%;
+            left: 40%;
+            animation: cloudMove 40s linear infinite;
+        }
+
+        .cloud-3 {
+            width: 150px;
+            height: 70px;
+            top: 25%;
+            left: 70%;
+            animation: cloudMove 35s linear infinite;
+        }
+
+        .bird {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            background: transparent;
+            z-index: 3;
+        }
+
+        .bird::before, .bird::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 10px solid rgba(0, 0, 0, 0.7);
+        }
+
+        .bird::before {
+            top: 0;
+            left: 0;
+            transform: rotate(30deg);
+        }
+
+        .bird::after {
+            top: 0;
+            right: 0;
+            transform: rotate(-30deg);
+        }
+
+        .bird-1 {
+            top: 40%;
+            left: 20%;
+            animation: birdFly 25s linear infinite;
+        }
+
+        .bird-2 {
+            top: 35%;
+            left: 60%;
+            animation: birdFly 30s linear infinite;
+        }
+
+        .boat {
+            position: absolute;
+            width: 120px;
+            height: 60px;
+            bottom: 32%;
+            left: 20%;
+            z-index: 6;
+            animation: boatFloat 20s linear infinite;
+        }
+
+        .boat-body {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: #8B4513;
+            border-radius: 10px 10px 0 0;
+            bottom: 0;
+        }
+
+        .boat-mast {
+            position: absolute;
+            width: 5px;
+            height: 50px;
+            background: #654321;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .boat-sail {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 40px solid rgba(255, 255, 255, 0.9);
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .title {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 3rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            text-align: center;
+            font-family: 'Georgia', serif;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #ff7e5f;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #ff6b4a;
+        }
+
+        @keyframes sunset {
+            0% {
+                bottom: 30%;
+                box-shadow: 0 0 50px 20px rgba(255, 140, 0, 0.7);
+            }
+            50% {
+                bottom: 25%;
+                box-shadow: 0 0 70px 30px rgba(255, 140, 0, 0.9);
+            }
+            100% {
+                bottom: 20%;
+                box-shadow: 0 0 40px 15px rgba(255, 140, 0, 0.5);
+            }
+        }
+
+        @keyframes waves {
+            0% {
+                background-position-x: 0;
+            }
+            100% {
+                background-position-x: 1200px;
+            }
+        }
+
+        @keyframes cloudMove {
+            0% {
+                transform: translateX(-100px);
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px));
+            }
+        }
+
+        @keyframes birdFly {
+            0% {
+                transform: translateX(-100px);
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px));
+            }
+        }
+
+        @keyframes boatFloat {
+            0% {
+                transform: translateY(0) translateX(-100px);
+            }
+            50% {
+                transform: translateY(-5px) translateX(calc(50vw - 60px));
+            }
+            100% {
+                transform: translateY(0) translateX(calc(100vw + 100px));
+            }
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 4s infinite;
+            z-index: 1;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <h1 class="title">Sunset at the Sea</h1>
+        
+        <div class="sky">
+            <!-- Stars will be added by JavaScript -->
+        </div>
+        
+        <div class="sun"></div>
+        <div class="sun-reflection"></div>
+        
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        
+        <div class="bird bird-1"></div>
+        <div class="bird bird-2"></div>
+        
+        <div class="waves"></div>
+        
+        <div class="sea"></div>
+        
+        <div class="boat">
+            <div class="boat-body"></div>
+            <div class="boat-mast"></div>
+            <div class="boat-sail"></div>
+        </div>
+        
+        <div class="controls">
+            <button id="pauseBtn">Pause Animation</button>
+            <button id="addBoatBtn">Add Another Boat</button>
+            <button id="addBirdBtn">Add Another Bird</button>
+        </div>
+    </div>
+
+    <script>
+        // Create stars
+        function createStars() {
+            const sky = document.querySelector('.sky');
+            const starCount = 50;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random position and size
+                const size = Math.random() * 3 + 1;
+                const left = Math.random() * 100;
+                const top = Math.random() * 70;
+                const delay = Math.random() * 4;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${left}%`;
+                star.style.top = `${top}%`;
+                star.style.animationDelay = `${delay}s`;
+                
+                sky.appendChild(star);
+            }
+        }
+
+        // Add another boat
+        function addBoat() {
+            const scene = document.querySelector('.scene');
+            const boat = document.createElement('div');
+            boat.classList.add('boat');
+            
+            // Random position and animation delay
+            const bottom = 30 + Math.random() * 5;
+            const delay = Math.random() * 10;
+            
+            boat.style.bottom = `${bottom}%`;
+            boat.style.animationDelay = `-${delay}s`;
+            
+            // Create boat elements
+            const boatBody = document.createElement('div');
+            boatBody.classList.add('boat-body');
+            
+            const boatMast = document.createElement('div');
+            boatMast.classList.add('boat-mast');
+            
+            const boatSail = document.createElement('div');
+            boatSail.classList.add('boat-sail');
+            
+            boat.appendChild(boatBody);
+            boat.appendChild(boatMast);
+            boat.appendChild(boatSail);
+            
+            scene.appendChild(boat);
+        }
+
+        // Add another bird
+        function addBird() {
+            const scene = document.querySelector('.scene');
+            const bird = document.createElement('div');
+            bird.classList.add('bird');
+            
+            // Random position and animation delay
+            const top = 30 + Math.random() * 20;
+            const delay = Math.random() * 15;
+            
+            bird.style.top = `${top}%`;
+            bird.style.animationDelay = `-${delay}s`;
+            
+            scene.appendChild(bird);
+        }
+
+        // Toggle animation pause/play
+        function toggleAnimations() {
+            const elements = document.querySelectorAll('*');
+            const isPaused = document.body.style.animationPlayState === 'paused';
+            
+            if (isPaused) {
+                // Resume animations
+                document.body.style.animationPlayState = 'running';
+                elements.forEach(el => {
+                    el.style.animationPlayState = 'running';
+                });
+                document.getElementById('pauseBtn').textContent = 'Pause Animation';
+            } else {
+                // Pause animations
+                document.body.style.animationPlayState = 'paused';
+                elements.forEach(el => {
+                    el.style.animationPlayState = 'paused';
+                });
+                document.getElementById('pauseBtn').textContent = 'Resume Animation';
+            }
+        }
+
+        // Initialize the scene
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            
+            // Add event listeners to buttons
+            document.getElementById('pauseBtn').addEventListener('click', toggleAnimations);
+            document.getElementById('addBoatBtn').addEventListener('click', addBoat);
+            document.getElementById('addBirdBtn').addEventListener('click', addBird);
+        });
+    </script>
+</body>
+</html>
